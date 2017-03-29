@@ -7,7 +7,6 @@
 
 //#include <bits/sched.h>
 
-struct task_struct *task;
 #define WIDTHOFWHITESPACES -20
 /*
     *priniting_mesg prints out the headlines of each of the three columns
@@ -16,9 +15,9 @@ struct task_struct *task;
     *   task_state is the state of the task
     *   task_pid is the process id of the task
 */
-#define printing_mesg printk("%-20s%-20s%s", "TASKNAME", "STATE", "PID");
+#define printing_mesg printk("%-20s%-20s%s\n", "TASKNAME", "STATE", "PID");
 #define printing_tasks_info(task_comm, task_state, task_pid) \
-    printk("\n%-20s%-20ld%-20d\n", task_comm, task_state, task_pid);
+    printk("%-20s%-20ld%-20d\n", task_comm, task_state, task_pid);
 
 /*
     *tasks_traversak_as_DFS uses the macros list_for_each, list_entry to output the name, state and pid of each task
@@ -30,7 +29,7 @@ struct task_struct *task;
 
 void tasks_traversal_as_DFS(struct task_struct *head_task)
 {
-
+    struct task_struct *task;
     struct list_head *list;
     struct list_head *head_task_children_list = &(head_task->children);
     //struct list_head *current_task_children_list;
@@ -50,7 +49,7 @@ void tasks_traversal_as_DFS(struct task_struct *head_task)
 
 void tasks_traversal(void)
 {
-    printing_mesg;
+    struct task_struct *task;
     for_each_process(task)
     {
         printing_tasks_info(task->comm, task->state, task->pid);
@@ -58,8 +57,10 @@ void tasks_traversal(void)
 }
 int module_start(void)
 {
-    //tasks_traversal();
-    printk("\nPrinting tasks DFS Mode \n\n");
+    printk("\tPrinting tasks in normal order \n\n");
+    printing_mesg;
+    tasks_traversal();
+    printk("\tPrinting tasks DFS Mode \n\n");
     printing_mesg;
     tasks_traversal_as_DFS(&init_task);
 
@@ -67,7 +68,7 @@ int module_start(void)
 }
 void module_end(void)
 {
-    printk(KERN_INFO "\nBye, World from the ls_module file\n");
+    printk(KERN_INFO "\tBye, World from the ls_module file\n");
 }
 
 module_init(module_start);
