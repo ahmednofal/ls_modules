@@ -5,9 +5,6 @@
 #include <linux/sched.h>
 #include <linux/list.h>
 
-//#include <bits/sched.h>
-
-#define WIDTHOFWHITESPACES -20
 /*
     *priniting_mesg prints out the headlines of each of the three columns
     *printing_tasks_info prints out the name, state and pid of each task
@@ -20,12 +17,11 @@
     printk("%-20s%-20ld%-20d\n", task_comm, task_state, task_pid);
 
 /*
-    *tasks_traversak_as_DFS uses the macros list_for_each, list_entry to output the name, state and pid of each task
+    *tasks_traversal_as_DFS uses the macros list_for_each, list_entry to output the name, state and pid of each task
     *in a Depth First Search manner utilizing the tree nature of the processes struct in linux
     *   list_for_each is from the list.h file, description can be found there
     *   list_entry is in the list.h description can be found there
 */
-//printk("%-20%-20%s", "TASKNAME", "STATE", "PID");
 
 void tasks_traversal_as_DFS(struct task_struct *head_task)
 {
@@ -34,7 +30,6 @@ void tasks_traversal_as_DFS(struct task_struct *head_task)
     struct list_head *head_task_children_list = &(head_task->children);
     //struct list_head *current_task_children_list;
 
-    // Children, Sibling, list_for_each, struct list head, init_task, list_entry
     if (head_task!= NULL)
     {
         printing_tasks_info(head_task->comm, head_task->state, head_task->pid);
@@ -47,28 +42,16 @@ void tasks_traversal_as_DFS(struct task_struct *head_task)
     }
 }
 
-void tasks_traversal(void)
-{
-    struct task_struct *task;
-    for_each_process(task)
-    {
-        printing_tasks_info(task->comm, task->state, task->pid);
-    }
-}
 int module_start(void)
 {
-    printk("\tPrinting tasks in normal order \n\n");
-    printing_mesg;
-    tasks_traversal();
     printk("\tPrinting tasks DFS Mode \n\n");
     printing_mesg;
     tasks_traversal_as_DFS(&init_task);
-
     return 0;
 }
 void module_end(void)
 {
-    printk(KERN_INFO "\tBye, World from the ls_module file\n");
+    printk(KERN_INFO "\tRemoved ls_module\n");
 }
 
 module_init(module_start);
