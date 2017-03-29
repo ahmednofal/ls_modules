@@ -9,4 +9,3 @@ clean:
 	@$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
 	@sudo rmmod dfs_traversal_tasks.ko
 	@sudo dmesg -c
-	@sudo rm -r *.txt
